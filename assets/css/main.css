@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #F6F7FD;
+  --color-primary-50: #F6F7FD;
+  --color-primary-100: #F1F2F9;
+  --color-primary-200: #E7E8F1;
+
+  --color-secondary: #1A1740;
+  --color-secondary-50: #1A1740;
+  --color-secondary-100: #2C2A4F;
+  --color-secondary-200: #302E4E;
+
+  --color-accent: #7582E4;
+  --color-accent-50: #7582E4;
+  --color-accent-100: #7E8BEB;
+  --color-accent-200: #8590EB;
+
+  --font-fustat: Fustat, sans-serif;
+  --font-space-mono: Space Mono, monospace;
+}
+
+@layer components {
+  html {
+        background: var(--color-primary);
+        font-family: var(--font-fustat);
+        color: var(--color-secondary);
+    }
+
+    h1 {
+        @apply text-4xl font-space-mono font-bold tracking-tighter leading-[0.8];
+    }
+}
