@@ -32,4 +32,8 @@
     h1 {
         @apply text-4xl font-space-mono font-bold tracking-tighter leading-[0.8];
     }
+
+    .navlink.active svg {
+        @apply !stroke-primary;
+    }
 }
