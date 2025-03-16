@@ -6,24 +6,25 @@ interface ProcessComponentProps {
     showActions?: boolean
 }
 
-const { process, showActions } = withDefaults(defineProps<ProcessComponentProps>(), {
-    showActions: false
-})
+const { process, showActions } = defineProps<ProcessComponentProps>()
+
 </script>
 
 <template>
     <div class="process flex justify-between items-center px-4 py-2 bg-accent/10 rounded-lg">
         <div class="name-status flex flex-col">
             <div class="flex">
-                <span class="name text-lg opacity-40 font-normal mr-2">{{ process.PID }}</span>
+                <span class="name text-lg opacity-40 font-normal mr-2">{{ process.pid }}</span>
                 <span class="name font-bold text-lg">{{ process.name }}</span>
             </div>
             <span class="status text-sm font-semibold -mt-0.5 text-success">{{ process.status.toLowerCase() }}</span>
         </div>
         <div class="flex gap-8">
-            <div class="cpu-usage font-extrabold"><span class="opacity-40 font-normal mr-2">CPU</span>{{ process.CPU }}%
+            <div class="cpu-usage font-extrabold"><span class="opacity-40 font-normal mr-2">CPU</span>{{
+                process.cpu_percent.toFixed(2) }}%
             </div>
-            <div class="mem-usage font-extrabold"><span class="opacity-40 font-normal mr-2">Mem.</span>{{ process.MEM
+            <div class="mem-usage font-extrabold"><span class="opacity-40 font-normal mr-2">Mem.</span>{{
+                process.memory_percent.toFixed(2)
                 }}%
             </div>
             <div class="actions" v-if="showActions">actions</div>
