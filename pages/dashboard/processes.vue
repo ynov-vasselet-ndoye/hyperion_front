@@ -13,13 +13,16 @@ const {
 } = useWebSocket("processes");
 
 watch([processes], ([newProcesses]: [Process[]]) => {
-    sortedProcesses.value = newProcesses.sort((pA, pB) => pA.pid - pB.pid)
+    setTimeout(() => {
+        sortedProcesses.value = newProcesses.sort((pA, pB) => pA.pid - pB.pid)
+    })
+
 })
 </script>
 
 <template>
     <AppPane title="Processes" class="grow ">
-        <AppLoader v-if="!processes" class="block absolute top-1/2 left-1/2 -translate-1/2" />
+        <AppLoader v-if="!sortedProcesses.length" class="block absolute top-1/2 left-1/2 -translate-1/2" />
         <ul v-if="processes" class="h-[calc(100%-38px)] rounded-b-xl overflow-scroll">
             <li v-for="(process, index) in sortedProcesses" :key="index">
                 <DataProcess :process="process" :show-actions="true" :class="{ 'bg-primary': index % 2 }" />
