@@ -35,8 +35,7 @@ const getIcon = (id: string) => defineAsyncComponent(() => import(`@/public/imag
 </script>
 
 <template>
-    <aside
-        class="flex flex-col float-left h-screen border-r-[1px] border-r-secondary/30 px-3 pb-3.5 pt-6 min-w-2xs font-bold">
+    <aside class="flex flex-col float-left h-screen px-3 pb-3.5 pt-6 min-w-2xs font-bold">
         <div class="brand font-space-mono flex px-6 gap-x-3 mb-8">
             <img src="/images/logo.svg" alt="Hyperion Logo" />
             <div class="brand-name first-letter:text-accent text-2xl uppercase font-bold">
