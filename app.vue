@@ -1,5 +1,5 @@
 <template>
-    <div class="flex">
+    <div class="flex overflow-hidden h-vh w-dvw">
         <NuxtLayout>
             <NuxtRouteAnnouncer />
             <NuxtPage />
