@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { type Process } from '~/utils/types/Process';
 
+const getIcon = (id: string) => defineAsyncComponent(() => import(`@/public/images/icons/${id}.svg`));
 interface ProcessComponentProps {
     process: Process,
     showActions?: boolean
@@ -25,9 +26,14 @@ const { process, showActions } = defineProps<ProcessComponentProps>()
             </div>
             <div class="mem-usage font-extrabold"><span class="opacity-40 font-normal mr-2">Mem.</span>{{
                 process.memory_percent.toFixed(2)
-                }}%
+            }}
             </div>
-            <div class="actions" v-if="showActions">actions</div>
+            <client-only>
+                <div class="actions flex gap-2" v-show="showActions">
+                    <component key="power-icon" :is="getIcon('power')"
+                        class="stroke-accent fill-none aspect-square h-5 stroke-2 cursor-pointer" />
+                </div>
+            </client-only>
         </div>
     </div>
 </template>
