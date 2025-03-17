@@ -3,7 +3,7 @@ import type { Status } from "./Status";
 export type Process = {
     name: string;
     status: Status;
-    PID: number;
-    CPU: number;
-    MEM: number;
+    pid: number;
+    cpu_percent: number;
+    memory_percent: number;
 }
