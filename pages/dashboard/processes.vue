@@ -16,7 +16,6 @@ watch([processes], ([newProcesses]: [Process[]]) => {
     setTimeout(() => {
         sortedProcesses.value = newProcesses.sort((pA, pB) => pA.pid - pB.pid)
     })
-
 })
 </script>
 
