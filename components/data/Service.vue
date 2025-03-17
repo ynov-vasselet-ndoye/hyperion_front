@@ -9,6 +9,8 @@ interface ServiceComponentProps {
 const { service, showActions } = withDefaults(defineProps<ServiceComponentProps>(), {
     showActions: false
 })
+
+const getIcon = (id: string) => defineAsyncComponent(() => import(`@/public/images/icons/${id}.svg`));
 </script>
 
 <template>
@@ -17,6 +19,15 @@ const { service, showActions } = withDefaults(defineProps<ServiceComponentProps>
             <span class="name font-bold text-lg">{{ service.name }}</span>
             <span class="status text-sm font-semibold -mt-0.5 text-success">{{ service.status.toLowerCase() }}</span>
         </div>
-        <div class="actions" v-if="showActions">actions</div>
+        <client-only>
+            <div class="actions flex gap-2" v-if="showActions">
+                <component key="power-icon" :is="getIcon('power')"
+                    class="stroke-accent fill-none aspect-square h-5 stroke-2" />
+                <component key="stop-icon" :is="getIcon('stop')"
+                    class="stroke-accent fill-none aspect-square h-5 stroke-2" />
+                <component key="restart-1-icon" :is="getIcon('restart-1')"
+                    class="stroke-accent fill-none aspect-square h-5 stroke-2" />
+            </div>
+        </client-only>
     </div>
 </template>
