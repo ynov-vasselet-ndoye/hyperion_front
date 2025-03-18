@@ -1,3 +1,5 @@
 <template>
-    <div>Processes</div>
+    <AppPane title="Network" class="grow h-full">
+
+    </AppPane>
 </template>

@@ -1,0 +1,37 @@
+<script setup lang="ts">
+definePageMeta({
+    middleware: [],
+    layout: "login"
+})
+const { fetch: refreshSession } = useUserSession()
+const credentials = reactive({
+    username: '',
+    password: '',
+})
+const toast = useToast()
+
+const { login } = useAuth();
+
+async function handleLogin(e: Event) {
+    try {
+        await login(credentials.username, credentials.password);
+    } catch (error) {
+        alert('Invalid credentials');
+    }
+}
+</script>
+
+<template>
+    <form class="flex flex-col items-center content-center justify-center h-full"
+        @submit="(e: Event) => handleLogin(e)">
+        <img src="/images/logo.svg" class="mb-8 w-24" />
+        <input type="text" placeholder="username" v-model="credentials.username" required
+            class="w-80 font-space-mono font-medium outline-2 outline-secondary rounded-sm background-primary py-2 px-3 placeholder:uppercase placeholder:font-space-mono placeholder:font-bold mb-4">
+        <input type="password" placeholder="password" v-model="credentials.password" required
+            class="w-80 font-space-mono outline-2 outline-secondary rounded-sm background-primary py-2 px-3 placeholder:uppercase placeholder:font-bold">
+        <button
+            class="mt-6 text-primary bg-accent px-5 py-3 rounded-sm cursor-pointer hover:bg-accent/70 transition-all ease-out">
+            Log in
+        </button>
+    </form>
+</template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { DateTime } from "luxon";
+import { Bar } from 'vue-chartjs'
 
 type GraphDataRecord = {
     [key: string]: any
@@ -30,12 +31,12 @@ const data = ref<DataRecord[]>([
 ])
 const tooltipTemplate = (d: any) => {
     console.log("Tooltip Data:", d); // Debugging
-    return `Time: ${formatDate(d.x)}<br> Value: ${d.y}`;
+    return `Time: ${formatDate(d.x)}<br> Usage: ${d.y}%`;
 };
 const xScale = Scale.scaleTime()
 
 const formatDate = (timestamp: object) => {
-    return DateTime.fromObject(timestamp).toFormat("HH:mm:ss:S");
+    return DateTime.fromObject(timestamp).toFormat("HH:mm:ss");
 };
 </script>
 
@@ -45,11 +46,11 @@ const formatDate = (timestamp: object) => {
         <VisXYContainer :data="graphData ?? data" :xScale="xScale">
             <VisArea :x="(d: any) => d.x" :y="(d: any) => d.y" fill="var(--color-accent-light)" opacity="0.3" />
             <VisLine color='var(--color-accent)' :x="(d: any) => d[xAxis ?? 'x']" :y="(d: any) => d[yAxis ?? 'y']"
-                :numTicks="6" />
+                :numTicks="4" />
             <VisAxis type="x" :label="xLabel" :tickFormat="formatDate" />
             <VisAxis type="y" :label="yLabel" />
-            <VisTooltip :template="tooltipTemplate" />
-            <VisCrosshair />
+            <VisTooltip />
+            <VisCrosshair :template="tooltipTemplate" />
         </VisXYContainer>
     </div>
 </template>

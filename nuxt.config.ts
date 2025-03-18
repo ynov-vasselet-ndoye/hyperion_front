@@ -27,10 +27,18 @@ export default defineNuxtConfig({
     svgo: {
         defaultImport: 'component',
     },
-    modules: ["nuxt-svgo"],
+    modules: ["nuxt-svgo", "@nuxt/ui"],
     nitro: {
         experimental: {
             websocket: true
         }
-    }
+    },
+    ui: {
+        fonts: false,
+        colorMode: false
+    },
+    runtimeConfig: {
+        baseurl: 'http://localhost:8000/api/auth'
+    },
+
 })

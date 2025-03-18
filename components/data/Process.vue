@@ -7,8 +7,9 @@ interface ProcessComponentProps {
     showActions?: boolean
 }
 
-const { process, showActions } = defineProps<ProcessComponentProps>()
+defineEmits(['closeProcess'])
 
+const { process, showActions } = defineProps<ProcessComponentProps>()
 </script>
 
 <template>
@@ -30,7 +31,7 @@ const { process, showActions } = defineProps<ProcessComponentProps>()
             </div>
             <client-only>
                 <div class="actions flex gap-2" v-show="showActions">
-                    <component key="power-icon" :is="getIcon('power')"
+                    <component key="power-icon" :is="getIcon('power')" @click="$emit('closeProcess', process.pid)"
                         class="stroke-accent fill-none aspect-square h-5 stroke-2 cursor-pointer" />
                 </div>
             </client-only>

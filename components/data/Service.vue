@@ -10,6 +10,7 @@ const { service, showActions } = withDefaults(defineProps<ServiceComponentProps>
     showActions: false
 })
 
+defineEmits(['stopService', 'restartService'])
 const getIcon = (id: string) => defineAsyncComponent(() => import(`@/public/images/icons/${id}.svg`));
 </script>
 
@@ -23,8 +24,8 @@ const getIcon = (id: string) => defineAsyncComponent(() => import(`@/public/imag
             <div class="actions flex gap-2" v-if="showActions">
                 <component key="power-icon" :is="getIcon('power')"
                     class="stroke-accent fill-none aspect-square h-5 stroke-2" />
-                <component key="stop-icon" :is="getIcon('stop')"
-                    class="stroke-accent fill-none aspect-square h-5 stroke-2" />
+                <!-- <component key="stop-icon" :is="getIcon('stop')" -->
+                <!--     class="stroke-accent fill-none aspect-square h-5 stroke-2" /> -->
                 <component key="restart-1-icon" :is="getIcon('restart-1')"
                     class="stroke-accent fill-none aspect-square h-5 stroke-2" />
             </div>

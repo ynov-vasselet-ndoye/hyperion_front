@@ -1,7 +1,10 @@
 export const useWebSocket = (url: string) => {
+    const toast = useToast()
+
     const receivedMessage = ref<any>(null);
     const ws = ref<WebSocket | null>(null);
     const isConnected = ref(false);
+    const isError = ref(false);
     const retryInterval = 3000;
     let retryTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -9,6 +12,7 @@ export const useWebSocket = (url: string) => {
     const attemptReconnect = () => {
         if (!isConnected.value && !retryTimeout) {
             retryTimeout = setTimeout(() => {
+                isError.value = false;
                 console.log("Attempting to reconnect...");
                 connectWebSocket();
             }, retryInterval);
@@ -38,6 +42,12 @@ export const useWebSocket = (url: string) => {
         ws.value.onerror = (error) => {
             console.error("WebSocket error:", error);
             isConnected.value = false;
+            isError.value = true;
+            toast.add({
+                title: 'Error',
+                description: 'Error when retrieving data. Retrying...',
+                color: 'warning'
+            })
         };
 
         ws.value.onclose = () => {
@@ -73,6 +83,7 @@ export const useWebSocket = (url: string) => {
         isConnected,
         sendMessage,
         reconnect: connectWebSocket,
+        isError,
         ws
     };
 };

@@ -1,5 +1,4 @@
 <template>
-    <AppSidebar />
     <main class="w-full px-10 py-6 z-10 relative h-screen overflow-y-auto">
         <slot />
     </main>

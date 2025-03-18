@@ -9,17 +9,11 @@ const convertToISO8601 = (dateString: string) => {
     return dt.toMillis();
 };
 
-definePageMeta({
-    layout: "dashboard"
-})
+let { data: processes, isLoading: isProcessesLoading, error: isProcessesError } = useAuthQuery(['processes'], '/processes');
+const { data: services, isLoading: isServicesLoading, error: isServicesError } = useAuthQuery(['services'], '/services');
 
-const {
-    receivedMessage: processes,
-} = useWebSocket("processes");
-
-const {
-    receivedMessage: services,
-} = useWebSocket("services");
+const sortedProcesses = computed(() => { return processes.value.splice(0, 6) })
+const sortedServices = computed(() => { return services.value.splice(0, 6) })
 
 const {
     receivedMessage: cpuUsage,
@@ -30,7 +24,7 @@ const cpuUsageFormatedData = computed(() => {
     // if (cpuUsage.value) cpuUsageWs.value?.close();
     return cpuUsage.value?.data.map((data: any) => {
         return { x: DateTime.fromISO(data.recorded_at, { setZone: true }).toMillis(), y: data.usage }
-    })
+    }).sort((dA, dB) => dA.x > dB.x ? 1 : -1)
 })
 
 
@@ -43,7 +37,7 @@ const memoryUsageFormatedData = computed(() => {
     // if (memoryUsage.value) memoryUsageWs.value?.close();
     return memoryUsage.value?.data.map((data: any) => {
         return { x: DateTime.fromISO(data.recorded_at, { setZone: true }).toMillis(), y: data.usage }
-    })
+    }).sort((dA, dB) => dA.x > dB.x ? 1 : -1)
 })
 </script>
 
@@ -59,16 +53,17 @@ const memoryUsageFormatedData = computed(() => {
             </div>
         </AppPane>
         <AppPane title="Services" class="grow h-full">
-            <ul>
-                <li v-for="(service, index) in services" :key="index">
+            <AppLoader v-if="isServicesLoading" />
+            <ul v-if="!isServicesLoading">
+                <li v-for="(service, index) in sortedServices" :key="index">
                     <DataService :service="service" :show-actions="false" :class="{ 'bg-primary': index % 2 }" />
                 </li>
             </ul>
         </AppPane>
         <AppPane title="Processes" class="grow h-full">
-            <AppLoader v-if="!processes" class="block absolute top-1/2 left-1/2 -translate-1/2" />
-            <ul v-if="processes">
-                <li v-for="(process, index) in processes" :key="index">
+            <AppLoader v-if="isProcessesLoading" />
+            <ul v-if="!isProcessesLoading">
+                <li v-for="(process, index) in sortedProcesses" :key="index">
                     <DataProcess :process="process" :show-actions="false" :class="{ 'bg-primary': index % 2 }" />
                 </li>
             </ul>

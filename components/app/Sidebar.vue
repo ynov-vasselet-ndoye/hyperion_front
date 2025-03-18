@@ -32,6 +32,7 @@ const NAVLINKS = [
     }
 ];
 const getIcon = (id: string) => defineAsyncComponent(() => import(`@/public/images/icons/${id}.svg`));
+const { logout } = useAuth();
 </script>
 
 <template>
@@ -52,7 +53,7 @@ const getIcon = (id: string) => defineAsyncComponent(() => import(`@/public/imag
                 </NuxtLink>
             </ul>
         </nav>
-        <button class="navlink cursor-pointer hover:bg-secondary/85 bg-secondary mt-auto text-primary">
+        <button @click="logout" class="navlink cursor-pointer hover:bg-secondary/85 bg-secondary mt-auto text-primary">
             <component :is="getIcon('log-out')"
                 class="stroke-primary navlink-[.active]:stroke-primary fill-none aspect-square h-6 stroke-2" />
             <span class="relative top-0.5">Log out</span>
