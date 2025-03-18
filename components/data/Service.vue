@@ -22,12 +22,13 @@ const getIcon = (id: string) => defineAsyncComponent(() => import(`@/public/imag
         </div>
         <client-only>
             <div class="actions flex gap-2" v-if="showActions">
-                <component key="power-icon" :is="getIcon('power')"
-                    class="stroke-accent fill-none aspect-square h-5 stroke-2" />
+                <component key="power-icon" :is="getIcon('power')" @click="$emit('stopService', service.name)"
+                    class="stroke-accent fill-none aspect-square h-5 stroke-2 cursor-pointer" />
                 <!-- <component key="stop-icon" :is="getIcon('stop')" -->
                 <!--     class="stroke-accent fill-none aspect-square h-5 stroke-2" /> -->
                 <component key="restart-1-icon" :is="getIcon('restart-1')"
-                    class="stroke-accent fill-none aspect-square h-5 stroke-2" />
+                    class="stroke-accent fill-none aspect-square h-5 stroke-2 cursor-pointer"
+                    @click="$emit('restartService', service.name)" />
             </div>
         </client-only>
     </div>

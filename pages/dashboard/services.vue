@@ -6,7 +6,8 @@ const search = ref('');
 
 const {
     receivedMessage: services,
-    isError
+    isError,
+    ws
 } = useWebSocket("services");
 
 watch([services], ([newServices]: [Service[]]) => {
@@ -16,6 +17,10 @@ watch([services], ([newServices]: [Service[]]) => {
         console.error("Error while loading")
     }
 })
+
+function stopService(name: string) {
+    ws.value?.send(`{"action":"stop","name":${name}}`)
+}
 </script>
 
 <template>
@@ -32,14 +37,15 @@ watch([services], ([newServices]: [Service[]]) => {
                 </div>
                 <input type="search" v-model="search" id="default-search"
                     class="block w-full p-4 ps-10 text-sm text-secondary border border-secondary rounded-lg placeholder:text-secondary/30"
-                    placeholder="Search Mockups, Logos..." required />
+                    placeholder="Search service" required />
             </div>
         </form>
 
         <ul>
             <AppLoader v-if="!sortedServices.length" class="block absolute top-1/2 left-1/2 -translate-1/2" />
             <li v-for="(service, index) in sortedServices" :key="index">
-                <DataService :service="service" :show-actions="true" :class="{ 'bg-primary': index % 2 }" />
+                <DataService @stop-service="stopService" :service="service" :show-actions="true"
+                    :class="{ 'bg-primary': index % 2 }" />
             </li>
         </ul>
     </AppPane>

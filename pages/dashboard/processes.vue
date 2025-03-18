@@ -3,7 +3,7 @@ import type { Process } from '~/utils/types/Process';
 
 const sortedProcesses = ref<Process[]>(null);
 const search = ref('');
-const toast = useToast()
+const toast = useToast();
 
 const {
     receivedMessage: processes,
@@ -12,7 +12,7 @@ const {
 } = useWebSocket("processes");
 
 watch([processes, isError, search], ([newProcesses]: [Process[], boolean, string]) => {
-    sortedProcesses.value = newProcesses.sort((pA, pB) => pA.pid - pB.pid).filter(process => process.name.toLowerCase().includes(search.value.toLowerCase()));
+    sortedProcesses.value = newProcesses?.sort((pA, pB) => pA.pid - pB.pid).filter(process => process.name.toLowerCase().includes(search.value.toLowerCase()));
 
     if (isError) {
         toast.add({ title: "Error", description: "Error on loading" });
@@ -21,7 +21,15 @@ watch([processes, isError, search], ([newProcesses]: [Process[], boolean, string
 
 
 function closeProcess(pid: number) {
-    ws.value?.send(`{"action":"stop","pid":${pid}}`)
+    try {
+        ws.value?.send(`{"action":"stop","pid":${pid}}`);
+        toast.add({
+            title: 'Success',
+            description: `Process and dependencies stopped successfully`,
+            color: 'success'
+        })
+    } catch (error) {
+    }
 }
 </script>
 
@@ -39,7 +47,7 @@ function closeProcess(pid: number) {
                 </div>
                 <input type="search" v-model="search" id="default-search"
                     class="block w-full p-4 ps-10 text-sm text-secondary border border-secondary rounded-lg placeholder:text-secondary/30"
-                    placeholder="Search Mockups, Logos..." required />
+                    placeholder="Search process" required />
             </div>
         </form>
 

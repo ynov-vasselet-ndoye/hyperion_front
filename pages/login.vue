@@ -40,7 +40,7 @@ async function handleLogin(e: Event) {
         <input type="password" placeholder="password" v-model="credentials.password" required
             class="w-80 font-space-mono outline-2 outline-secondary rounded-sm background-primary py-2 px-3 placeholder:uppercase placeholder:font-bold">
         <button
-            class="mt-6 text-primary bg-accent px-5 py-3 rounded-sm cursor-pointer hover:bg-accent/70 transition-all ease-out">
+            class="mt-6 text-primary font-fustat font-bold bg-accent px-5 py-3 rounded-sm cursor-pointer hover:bg-accent/70 transition-all ease-out">
             Log in
         </button>
     </form>
